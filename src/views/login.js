@@ -27,12 +27,16 @@ class Login extends React.Component {
             email: this.state.email,
             senha: this.state.senha
         }).then(response => {
+            try {
             //console.log(response)
             //localStorage.setItem('_usuario_logado', JSON.stringify(response.data));
             //LocalStorageService.adicionarItem('_usuario_logado', response.data);
             this.context.iniciarSessao(response.data); // faz com q os dados vá para provedorAutenticacao.js
 
             this.props.history.push('/home'); // faz com que redireciona para a página home 
+            } catch(e) {
+                console.log('error', e)
+            }
         }).catch(erro => {
             mensagemErro(erro.response.data)
         });
