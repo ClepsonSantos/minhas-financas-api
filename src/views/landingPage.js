@@ -14,7 +14,7 @@ class LandingPage extends React.Component {
                 Este é seu sistema para controle de finanças pessoais,
                 clique no botão abaixo para acessar o sistema: <br /><br />
 
-                <div className="offset-md-6 col-md-4">
+                <div className="col-md-4 offset-md-4">
                     <button style={{ width: '100%'}} 
                             className="btn btn-success"
                             onClick={this.goToHomePage}>
