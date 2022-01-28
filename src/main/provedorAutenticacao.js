@@ -1,5 +1,7 @@
 import React from 'react';
+import ApiService from '../app/apiservice';
 import AuthService from '../app/service/authService';
+import jwt from 'jsonwebtoken';
 
 export const AuthContext = React.createContext();
 export const AuthConsumer = AuthContext.Consumer;
@@ -12,14 +14,38 @@ class ProvedorAutenticacao extends React.Component {
         isAutenticado: false
     }
 
-    iniciarSessao = (usuario) => {
-        AuthService.logar(usuario);
+    iniciarSessao = (tokenDTO) => {
+        const token = tokenDTO.token;
+        console.log('iniciarSessao token: ', token)
+        const claims = jwt.decode(token);
+        const usuario = {
+            id: claims.userid,
+            nome: claims.nome
+        }
+
+        AuthService.logar(usuario, token);
         this.setState( { isAutenticado: true, usuarioAutenticado: usuario } );
     }
 
     encerrarSessao = () => {
         AuthService.removerUsuarioAutenticado();
         this.setState( { isAutenticado: false, usuarioAutenticado: null} );
+    }
+
+    // método chamado quando entra no componente
+    componentDidMount(){
+        const isAutenticado = AuthService.isUsuarioAutenticado();
+        console.log('componentDidMount. autenticado? ', isAutenticado);
+
+        if(isAutenticado){
+            console.log('componentDidMount inside if');
+            const usuario = AuthService.refreshSession();
+
+            this.setState({
+                isAutenticado: true,
+                usuarioAutenticado: usuario
+            });
+        }
     }
 
     render(){
