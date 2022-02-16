@@ -3,7 +3,7 @@ import axios from "axios";
 const baseURL = process.env.REACT_APP_API_URL
 
 const httpClient = axios.create({
-    baseURL: baseURL,
+    baseURL: 'https://minhas-financas-api.herokuapp.com/',
     withCredentials: true 
     //https://minhas-financas-api.herokuapp.com/
     //baseURL: 'https://minhas-financas-api.herokuapp.com'
